@@ -85,4 +85,9 @@ sql dump file:
 - mysql>FLUSH PRIVILEGES; (to reload)
 - mysql> exit
 
-### 
+### Download Source code & Initialize Database
+#### git clone -b main https://github.com/hkhcoder/vprofile-project.git
+#### cd vprofile-rpoject
+#### mysql -u root -padmin123 accounts < src/main/resources/db_backup.sql (to deploy the database)
+#### mysql -u root -padmin123 accounts
+#### mysql> show tables
