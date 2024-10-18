@@ -104,3 +104,23 @@ sql dump file:
 #### sudo systemctl status memcached
 #### sed -i 's/127.0.0.1/0.0.0.0/g' /etc/sysconfig/memcached (search for the local ip:127.0.0.0 and replace it by 0.0.0.0 ) (so we need to do the replacement because some services listen only to local connection, and to change this behavior we make this change so other services from other machine can connect to this services inside other machine (to allow remote connection) (0.0.0.0 in networking means all the ipV4))
 #### sudo systemctl restart memcached
+
+
+### RABBITMQ SETUP
+#### yum install epel-release -y 
+#### dnf -y install centos-release-rabbitmq-38 (to install rabbimq repo)
+#### dnf --enablerepo=centos-rabbitmq-38 -y install rabbitmq-server (enable rabbitmq repo and install rabbitmq server)
+#### systemctl start rabbitmq-server
+#### system enable --now rabbitmq-server
+
+#### firewall-cmd --add-port=5672/tcp
+#### firewall-cmd --runtime-to-permanent
+
+#### systemctl start rabbitmq-server
+#### systemctl enable rabbitmq-server
+#### systemctl status rabbitmq-server
+
+#### sh -c 'echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq.config' (for vproifle application)
+#### rabbitmqctl add_user test test (add user test with password test)
+#### rabbitmqctl set_user_tags test administrator (set a tag to test user as administrator, willbe used by vprofile application to connect rabbitmq service)
+#### systemctl restart rabbitmq-server
