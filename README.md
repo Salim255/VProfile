@@ -89,5 +89,18 @@ sql dump file:
 #### git clone -b main https://github.com/hkhcoder/vprofile-project.git
 #### cd vprofile-rpoject
 #### mysql -u root -padmin123 accounts < src/main/resources/db_backup.sql (to deploy the database)
-#### mysql -u root -padmin123 accounts
+#### mysql -u root -padmin123 accounts (to login to database named accounts)
 #### mysql> show tables
+
+
+
+
+### MEMCACHE SETUP
+#### instal, start & enable memcache on port 11211
+#### sudo dnf install epel-release -y  (dnf or yum are the same thing, but we use dnf in latest operating systems)
+#### sudo dnf install memcached -y
+#### sudo systemctl start memcached 
+#### sudo systemctl enable memcached
+#### sudo systemctl status memcached
+#### sed -i 's/127.0.0.1/0.0.0.0/g' /etc/sysconfig/memcached (search for the local ip:127.0.0.0 and replace it by 0.0.0.0 ) (so we need to do the replacement because some services listen only to local connection, and to change this behavior we make this change so other services from other machine can connect to this services inside other machine (to allow remote connection) (0.0.0.0 in networking means all the ipV4))
+#### sudo systemctl restart memcached
