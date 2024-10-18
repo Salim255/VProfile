@@ -106,7 +106,9 @@ sql dump file:
 #### sudo systemctl restart memcached
 
 
+
 ### RABBITMQ SETUP
+
 #### yum install epel-release -y 
 #### dnf -y install centos-release-rabbitmq-38 (to install rabbimq repo)
 #### dnf --enablerepo=centos-rabbitmq-38 -y install rabbitmq-server (enable rabbitmq repo and install rabbitmq server)
@@ -124,3 +126,5 @@ sql dump file:
 #### rabbitmqctl add_user test test (add user test with password test)
 #### rabbitmqctl set_user_tags test administrator (set a tag to test user as administrator, willbe used by vprofile application to connect rabbitmq service)
 #### systemctl restart rabbitmq-server
+
+### TOMCAT SETUP
