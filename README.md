@@ -128,3 +128,60 @@ sql dump file:
 #### systemctl restart rabbitmq-server
 
 ### TOMCAT SETUP
+- Login to the tomcat vm
+#### vagrant ssh app01
+- Verify Host entry, if entires missing update it with IP and hosnames
+#### cat /etc/hosts
+- Update OS with latest patches
+#### yum update -y
+- Set Repository
+#### yum install epel-release -y
+- Install Dependencies
+#### dnf -y install  java-11-openjdk java-11-openjdk-devel
+#### dnf install git maven wget -y (git to clone source code, maven use to build our artifact )
+- Change dir to /tmp
+#### cd/tmp/
+
+- Download & Tomcat Package
+#### wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz (This tar contain everything we need for our tomcat application, configuration files, startup script...)
+
+#### tar xzvf apache-tomcat-9.0.75.tar.gz
+
+- Add tomcat user
+#### useradd --home-dir /usr/local/tomcat --shell /sbin/nologin tomcat (add user as tomcat, and create home dir as /user/local/tomcat and this--shell /sbin/nologin to tell that we dont need to have login access with this service )
+
+- Copy data to tomcat home dir
+#### cp -r /tmp/apache-tomcat-9.0.75/* /usr/local/tomcat/
+
+- Make tomcat user owner of tomcat home dir
+#### chown -R tomcat.tomcat /usr/local/tomcat
+
+#### Setup systemctl command for tomcat
+
+- Update file with following content
+#### vi /etc/systemd/system/tomcat.service
+
+#### [Unit]
+#### Description=Tomcat
+#### After=network.target
+
+#### [Service]
+User=tomcat
+WorkingDirectory=/usr/local/tomcat
+Environment=JRE_HOME=/user/lib/jvm/jre
+Environment=JAVA_HOME=/user/lib/jvm/jre
+Environment=CATALINA_HOME=/usr/local/tomcat
+Environment=CATALINA_BASE=/usr/local/tomcat
+ExecStart=/usr/local/tomcat/bin/catalina.sh run
+ExecStop=/usr/local/tomcat/bin/shutdown.sh
+SyslogIdentifier=tomcat-%i
+
+#### [Install]
+WantedBy=multi-user.target
+
+- Reload systemd files
+#### systemctl daemon-reload
+
+- Start & Enable service
+#### systemctl start tomcat
+#### systemctl enable tomcat
