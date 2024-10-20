@@ -185,3 +185,24 @@ WantedBy=multi-user.target
 - Start & Enable service
 #### systemctl start tomcat
 #### systemctl enable tomcat
+
+### Code Build & Deploy (app01)
+- Download Source code
+#### tmp> git clone -b main https://github.com/hkhcoder/vprofile-project.gti
+
+- Update configuration
+#### cd vprofile-project
+#### vim src/main/resources/application.properties
+####  Update file with backend sever details
+
+- Build code
+- Run below command inside the Repository (vprofile-project)
+#### vprofile-project> mvn install (this command will read the source code and build the artifact (artifact is a deployable product ))
+
+### Deploy the application
+- Remove default tomcat application
+####  rm -rf /usr/local/tomcat/webapps/ROOT
+- Recreate ROOT file by Copy the artifact
+#### cp target/vprofile-v2.war /usr/local/tomcat/webapps/ROOT.war
+- Start tomcat service (so tomcat will create the default application (ROOT) from the ROOT.war)
+#### systemctl start tomcat
